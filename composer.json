@@ -1,0 +1,28 @@
+{
+  "name": "mqlogic/magento2-ldap",
+  "description": "Magento2 LDAP authorization module",
+  "require": {
+    "php": "~5.5.0|~5.6.0|~7.0.0",
+    "magento/framework": "100.1.*"
+  },
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Mqlogic\\Ldap\\": ""
+    }
+  },
+  "authors": [
+    {
+      "name": "Maciej Pawłowski",
+      "homepage": "http://github.com/maqlec"
+    }
+  ],
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ]
+}
