@@ -15,6 +15,7 @@
       "Mqlogic\\Ldap\\": ""
     }
   },
+  "minimum-stability": "dev",
   "authors": [
     {
       "name": "Maciej Pawłowski",
