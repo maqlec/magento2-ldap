@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <ldap>
+            <general>
+                <active>1</active>
+            </general>
+            <connection>
+                <servers></servers>
+                <protocol>ldap</protocol>
+                <port>389</port>
+                <dnPattern>%s@example.com</dnPattern>
+                <domain>example.com</domain>
+                <user></user>
+                <password></password>
+            </connection>
+        </ldap>
+    </default>
+</config>
