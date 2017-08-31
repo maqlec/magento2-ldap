@@ -1,6 +1,6 @@
 {
-  "name": "mqlogic/magento2-ldap",
-  "description": "Magento2 LDAP authorization module",
+  "name": "mqlogic/m2-ldap-backend-auth",
+  "description": "Magento2 LDAP backend authorization module",
   "require": {
     "php": "~5.5.0|~5.6.0|~7.0.0",
     "magento/framework": "100.1.*"
