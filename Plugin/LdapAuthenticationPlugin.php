@@ -57,7 +57,8 @@ class LdapAuthenticationPlugin
         }
 
         try {
-            if (!$this->ldapClient->authenticate($userModel->getUserName(), $password) || $userModel->getIsActive() != '1') {
+            $this->ldapClient->authenticate($userModel->getUserName(), $password);
+            if ($userModel->getIsActive() != '1') {
                 throw new AuthenticationException(
                     __('You did not sign in correctly or your account is temporarily disabled.')
                 );

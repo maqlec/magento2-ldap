@@ -50,7 +50,7 @@ class LdapClient
             return ldap_bind($server, $dn, $password);
         } catch (\Exception $e) {
             //niepoprawne dane logowania
-            return false;
+            throw new LdapException('Incorrect authentication');
         }
     }
 
