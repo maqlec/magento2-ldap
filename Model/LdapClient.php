@@ -1,57 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mqlogic\Ldap\Model;
 
 use Mqlogic\Ldap\Helper\Data;
 
-/**
- * Klasa klienta LDAP
- */
-class LdapClient
+readonly class LdapClient
 {
+    public function __construct(
+        private Data $dataHelper,
+        private ServerConnectionProvider $serverConnectionProvider
+    ) {
+    }
 
     /**
-     * @var Data
-     */
-    private $config;
-
-    /**
-     * @var ServerProvider
-     */
-    private $serverProvider;
-
-    /**
-     * LdapClient constructor.
-     * @param Data $dataHelper
-     * @param ServerProvider $serverProvider
      * @throws LdapException
      */
-    public function __construct(
-        Data $dataHelper,
-        ServerProvider $serverProvider
-    ) {
-        $this->config = $dataHelper;
-        $this->serverProvider = $serverProvider;
-    }
-
-    /**
-     * Autoryzuje po DN i haśle
-     * @param string $login login lub dn
-     * @param string $password
-     * @return boolean
-     * @throws LdapException błędy parametów (nie logowania)
-     */
-    public function authenticate($login, $password)
+    public function authenticate(string $login, string $password): bool
     {
-        $server = $this->serverProvider->getActiveServer();
-        $dn = $this->config->getDn($login);
+        $serverConnection = $this->serverConnectionProvider->getActiveServerConnection();
+        $dn = $this->dataHelper->getDn($login);
         try {
-            //autoryzacja sklejonym loginem
-            return ldap_bind($server, $dn, $password);
+            return ldap_bind($serverConnection, $dn, $password);
         } catch (\Exception $e) {
-            //niepoprawne dane logowania
-            throw new LdapException('Incorrect authentication');
+            throw new LdapException('Incorrect LDAP authentication');
         }
     }
-
 }

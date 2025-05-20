@@ -1,11 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mqlogic\Ldap\Model;
 
-/**
- * Klasa wyjątku LDAP
- */
 class LdapException extends \Exception
 {
-
 }

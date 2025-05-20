@@ -1,89 +1,67 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mqlogic\Ldap\Helper;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
-/**
- * Klasa wyciagania konfiguracji
- * @package Mqlogic\Ldap\Helper
- */
 class Data
 {
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    public const string XML_PATH_LDAP_GENERAL_ACTIVE = 'ldap/general/active';
+    public const string XML_PATH_LDAP_CONNECTION_SERVERS = 'ldap/connection/servers';
+    public const string XML_PATH_LDAP_CONNECTION_PROTOCOL = 'ldap/connection/protocol';
+    public const string XML_PATH_LDAP_CONNECTION_PORT = 'ldap/connection/port';
+    public const string XML_PATH_LDAP_CONNECTION_DN_PATTERN = 'ldap/connection/dnPattern';
+    public const string XML_PATH_LDAP_CONNECTION_DOMAIN = 'ldap/connection/domain';
 
-    /**
-     * Data constructor.
-     * @param ScopeConfigInterface $scopeConfig
-     */
     public function __construct(
-        ScopeConfigInterface $scopeConfig
+        private readonly ScopeConfigInterface $scopeConfig
     ) {
-        $this->scopeConfig = $scopeConfig;
     }
 
-    /**
-     * @return bool
-     */
-    public function isActive()
+    public function isActive(): bool
     {
-        return (bool)$this->scopeConfig->getValue('ldap/general/active');
+        return (bool)$this->scopeConfig->getValue(self::XML_PATH_LDAP_GENERAL_ACTIVE);
     }
 
-    /**
-     * @return array
-     */
-    public function getServers()
+    public function getServers(): array
     {
-        $servers = $this->scopeConfig->getValue('ldap/connection/servers');
+        $servers = $this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_SERVERS);
         if (empty($servers)) {
             return [];
         }
-        return explode(';', $servers);
+        if (str_contains($servers, ';')) {
+            $servers = explode(';', $servers);
+            return $servers;
+        }
+        $servers = explode(',', $servers);
+        return $servers;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getProtocol()
+    public function getProtocol(): mixed
     {
-        return $this->scopeConfig->getValue('ldap/connection/protocol');
+        return $this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_PROTOCOL);
     }
 
-    /**
-     * @return int
-     */
-    public function getPort()
+    public function getPort(): int
     {
-        return (int)$this->scopeConfig->getValue('ldap/connection/port');
+        return (int)$this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_PORT);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDnPattern()
+    public function getDnPattern(): mixed
     {
-        return $this->scopeConfig->getValue('ldap/connection/dnPattern');
+        return $this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_DN_PATTERN);
     }
 
-    /**
-     * @param $login
-     * @return string
-     */
-    public function getDn($login)
+    public function getDn(string $login): string
     {
         return sprintf($this->getDnPattern(), str_replace('@' . $this->getDomain(), '', $login));
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDomain()
+    public function getDomain(): mixed
     {
-        return $this->scopeConfig->getValue('ldap/connection/domain');
+        return $this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_DOMAIN);
     }
 
 }
