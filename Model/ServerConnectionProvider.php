@@ -16,6 +16,7 @@ class ServerConnectionProvider
         private readonly Data $dataHelper,
         private readonly LoggerInterface $logger
     ) {
+        $this->activeServerConnection = null;
     }
 
     /**
@@ -46,9 +47,9 @@ class ServerConnectionProvider
     private function isServerAlive(\stdClass $serverAddress): bool
     {
         try {
-            $errno = null;
-            $errstr = null;
-            fclose(fsockopen($serverAddress->host, $serverAddress->port, $errno, $errstr, 1));
+            $errorCode = null;
+            $errorMessage = null;
+            fclose(fsockopen($serverAddress->host, $serverAddress->port, $errorCode, $errorMessage, 1));
             return true;
         } catch (\Exception $e) {
             return false;

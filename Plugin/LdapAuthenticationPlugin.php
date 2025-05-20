@@ -49,7 +49,6 @@ class LdapAuthenticationPlugin
             return true;
         } catch (LdapException $e) {
             $this->logger->warning($e->getMessage());
-            return $proceed($password);
         }
 
         return $proceed($password);
