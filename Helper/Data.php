@@ -32,11 +32,9 @@ class Data
             return [];
         }
         if (str_contains($servers, ';')) {
-            $servers = explode(';', $servers);
-            return $servers;
+            return explode(';', $servers);
         }
-        $servers = explode(',', $servers);
-        return $servers;
+        return explode(',', $servers);
     }
 
     public function getProtocol(): mixed
