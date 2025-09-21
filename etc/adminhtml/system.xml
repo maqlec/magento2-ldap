@@ -33,12 +33,6 @@
                 <field id="domain" translate="label" type="text" sortOrder="40" showInDefault="1">
                     <label>Domain</label>
                 </field>
-                <field id="user" translate="label" type="text" sortOrder="50" showInDefault="1">
-                    <label>User</label>
-                </field>
-                <field id="password" translate="label" type="password" sortOrder="60" showInDefault="1">
-                    <label>Password</label>
-                </field>
             </group>
         </section>
     </system>

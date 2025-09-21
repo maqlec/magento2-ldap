@@ -11,8 +11,6 @@
                 <port>389</port>
                 <dnPattern>%s@example.com</dnPattern>
                 <domain>example.com</domain>
-                <user></user>
-                <password></password>
             </connection>
         </ldap>
     </default>
