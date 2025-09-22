@@ -42,7 +42,10 @@ class Data
         if (empty($servers)) {
             return [];
         }
-        return explode(';', $servers);
+        if (str_contains($servers, ';')) {
+            return explode(';', $servers);
+        }
+        return explode(',', $servers);
     }
 
     /**

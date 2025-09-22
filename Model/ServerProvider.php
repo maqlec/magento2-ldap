@@ -134,7 +134,7 @@ class ServerProvider
             $serverAddress->port = $matches[1];
         }
         //ustalanie hosta
-        if (preg_match('/([a-z\.0-9]+)/', $address, $matches)) {
+        if (preg_match('/([A-Za-z\.0-9]+)/', $address, $matches)) {
             $serverAddress->host = $matches[1];
             return $serverAddress;
         }
