@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_block_html_before">
+        <observer name="change_form" instance="Mqlogic\Ldap\Observer\UserFormObserver"/>
+    </event>
+    <event name="admin_user_save_before">
+        <observer name="update_user" instance="Mqlogic\Ldap\Observer\EmptyPasswordObserver"/>
+    </event>
+</config>

@@ -27,4 +27,30 @@ readonly class LdapClient
             throw new LdapException('Incorrect LDAP authentication');
         }
     }
+
+    public function searchByEmail($email): \Magento\Framework\DataObject
+    {
+        $server = $this->serverProvider->getActiveServer();
+        $baseDn = $this->config->getBaseDn();
+        $attributes = ['sAMAccountName', 'givenName', 'sn', 'mail'];
+
+        $result = ldap_search(
+            $server,
+            $baseDn,
+            sprintf('(|(userPrincipalName=%s)(proxyAddresses=*%s)(sAMAccountName=%s))', $email, $email, $email),
+            $attributes
+        );
+        $entries = ldap_get_entries($server, $result);
+
+        $dataObject = new \Magento\Framework\DataObject();
+        if ($entries['count'] > 0) {
+            foreach ($attributes as $attr) {
+                if (isset($entries[0][strtolower($attr)])) {
+                    $dataObject->setData($attr, $entries[0][strtolower($attr)][0]);
+                }
+            }
+        }
+        return $dataObject;
+    }
+
 }

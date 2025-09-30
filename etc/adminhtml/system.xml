@@ -33,6 +33,10 @@
                 <field id="domain" translate="label" type="text" sortOrder="40" showInDefault="1">
                     <label>Domain</label>
                 </field>
+                <field id="baseDn" translate="label" type="text" sortOrder="50" showInDefault="1">
+                    <label>Base DN</label>
+                    <comment>Users container</comment>
+                </field>
             </group>
         </section>
     </system>

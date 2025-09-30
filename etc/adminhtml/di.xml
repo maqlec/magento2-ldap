@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\User\Controller\Adminhtml\User\Save" type="Mqlogic\Ldap\Controller\Adminhtml\User\Save"/>
+    <type name="Magento\User\Model\UserValidationRules">
+        <plugin name="change_validation" type="Mqlogic\Ldap\Plugin\UserFormValidationPlugin"/>
+    </type>
+</config>

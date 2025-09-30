@@ -11,6 +11,7 @@
                 <port>389</port>
                 <dnPattern>%s@example.com</dnPattern>
                 <domain>example.com</domain>
+                <baseDn>DC=example,DC=pl</baseDn>
             </connection>
         </ldap>
     </default>

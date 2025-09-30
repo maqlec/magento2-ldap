@@ -21,10 +21,6 @@ class LdapAuthenticationPlugin
     }
 
     /**
-     * @param User $userModel
-     * @param callable $proceed
-     * @param $password
-     * @return bool
      * @throws AuthenticationException
      */
     public function aroundVerifyIdentity(User $userModel, callable $proceed, $password): bool

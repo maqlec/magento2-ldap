@@ -14,6 +14,7 @@ class Data
     public const string XML_PATH_LDAP_CONNECTION_PORT = 'ldap/connection/port';
     public const string XML_PATH_LDAP_CONNECTION_DN_PATTERN = 'ldap/connection/dnPattern';
     public const string XML_PATH_LDAP_CONNECTION_DOMAIN = 'ldap/connection/domain';
+    public const string XML_PATH_LDAP_CONNECTION_BASE_DN = 'ldap/connection/baseDn';
 
     public function __construct(
         private readonly ScopeConfigInterface $scopeConfig
@@ -37,7 +38,7 @@ class Data
         return explode(',', $servers);
     }
 
-    public function getProtocol(): mixed
+    public function getProtocol(): string
     {
         return $this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_PROTOCOL);
     }
@@ -47,7 +48,7 @@ class Data
         return (int)$this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_PORT);
     }
 
-    public function getDnPattern(): mixed
+    public function getDnPattern(): string
     {
         return $this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_DN_PATTERN);
     }
@@ -57,9 +58,13 @@ class Data
         return sprintf($this->getDnPattern(), str_replace('@' . $this->getDomain(), '', $login));
     }
 
-    public function getDomain(): mixed
+    public function getDomain(): string
     {
         return $this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_DOMAIN);
     }
 
+    public function getBaseDn(): string
+    {
+        return $this->scopeConfig->getValue(self::XML_PATH_LDAP_CONNECTION_BASE_DN);
+    }
 }
