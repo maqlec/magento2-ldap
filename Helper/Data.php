@@ -89,4 +89,8 @@ class Data
         return $this->scopeConfig->getValue('ldap/connection/domain');
     }
 
+    public function getBaseDn()
+    {
+        return $this->scopeConfig->getValue('ldap/connection/baseDn');
+    }
 }
