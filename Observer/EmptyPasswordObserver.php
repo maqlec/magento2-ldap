@@ -12,6 +12,9 @@ class EmptyPasswordObserver implements ObserverInterface
     public function execute(Observer $observer)
     {
         $event = $observer->getEvent();
+        if ($event->getDataObject()->getCanUsePass()) {
+            return;
+        }
         $event->getDataObject()->setPassword('');
     }
 }
