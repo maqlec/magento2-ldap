@@ -27,9 +27,10 @@ class UserFormObserver implements ObserverInterface
         $baseFieldset = $form->getElement('base_fieldset');
         $elements = $baseFieldset->getElements();
         foreach ($elements as $element) {
-            if ($element->getId() === 'username'
+            if (($element->getId() === 'username'
                 || $element->getId() === 'firstname'
-                || $element->getId() === 'lastname'
+                || $element->getId() === 'lastname')
+                && !$model->getStandalone()
             ) {
                 $element->setRequired(false)->setDisabled(true);
             }
