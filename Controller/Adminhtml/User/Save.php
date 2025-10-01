@@ -45,6 +45,7 @@ class Save extends \Magento\User\Controller\Adminhtml\User\Save implements HttpP
             return;
         }
         $data['can_use_pass'] = (bool)$model->getCanUsePass();
+        $data['standalone'] = (bool)$model->getStandalone();
         $model->setData($this->_getAdminUserData($data));
         $userRoles = $this->getRequest()->getParam('roles', []);
         if (count($userRoles)) {
@@ -75,17 +76,18 @@ class Save extends \Magento\User\Controller\Adminhtml\User\Save implements HttpP
                 );
             }
             $currentUser->performIdentityCheck($data[$currentUserPasswordField]);
-
-            // LDAP search and update user model
-            $ldapUser = $this->ldapClient->searchByEmail($model->getEmail());
-            if (!$ldapUser->getData('mail')) {
-                throw new LocalizedException(__('No LDAP user found with this email address.'));
-            }
             $previousEmail = $model->getEmail();
-            $model->setEmail($ldapUser->getData('mail'));
-            $model->setUsername($ldapUser->getData('sAMAccountName'));
-            $model->setFirstName($ldapUser->getData('givenName'));
-            $model->setLastName($ldapUser->getData('sn'));
+
+            if (!$model->getStandalone()) {
+                $ldapUser = $this->ldapClient->searchByEmail($model->getEmail());
+                if (!$ldapUser->getData('mail')) {
+                    throw new LocalizedException(__('No LDAP user found with this email address.'));
+                }
+                $model->setEmail($ldapUser->getData('mail'));
+                $model->setUsername($ldapUser->getData('sAMAccountName'));
+                $model->setFirstName($ldapUser->getData('givenName'));
+                $model->setLastName($ldapUser->getData('sn'));
+            }
 
             $model->save();
 
