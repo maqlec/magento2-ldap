@@ -9,6 +9,10 @@ use Magento\Framework\Event\ObserverInterface;
 
 class UserFormObserver implements ObserverInterface
 {
+    public function __construct(private readonly \Magento\Framework\Registry $registry)
+    {
+    }
+
     public function execute(Observer $observer): void
     {
         $event = $observer->getEvent();
@@ -16,6 +20,8 @@ class UserFormObserver implements ObserverInterface
         if (!$block instanceof \Magento\User\Block\User\Edit\Tab\Main) {
             return;
         }
+
+        $model = $this->registry->registry('permissions_user');
 
         $form = $block->getForm();
         $baseFieldset = $form->getElement('base_fieldset');
@@ -27,8 +33,9 @@ class UserFormObserver implements ObserverInterface
             ) {
                 $element->setRequired(false)->setDisabled(true);
             }
-            if ($element->getId() === 'password'
-                || $element->getId() === 'confirmation'
+            if (($element->getId() === 'password'
+                || $element->getId() === 'confirmation')
+                && !$model->getCanUsePass()
             ) {
                 $baseFieldset->removeField($element->getId());
             }

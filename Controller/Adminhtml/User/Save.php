@@ -44,6 +44,7 @@ class Save extends \Magento\User\Controller\Adminhtml\User\Save implements HttpP
             $this->_redirect('adminhtml/*/');
             return;
         }
+        $data['can_use_pass'] = (bool)$model->getCanUsePass();
         $model->setData($this->_getAdminUserData($data));
         $userRoles = $this->getRequest()->getParam('roles', []);
         if (count($userRoles)) {
