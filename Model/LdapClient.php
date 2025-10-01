@@ -30,17 +30,17 @@ readonly class LdapClient
 
     public function searchByEmail($email): \Magento\Framework\DataObject
     {
-        $server = $this->serverProvider->getActiveServer();
-        $baseDn = $this->config->getBaseDn();
+        $serverConnection = $this->serverConnectionProvider->getActiveServerConnection();
+        $baseDn = $this->dataHelper->getBaseDn();
         $attributes = ['sAMAccountName', 'givenName', 'sn', 'mail'];
 
         $result = ldap_search(
-            $server,
+            $serverConnection,
             $baseDn,
             sprintf('(|(userPrincipalName=%s)(proxyAddresses=*%s)(sAMAccountName=%s))', $email, $email, $email),
             $attributes
         );
-        $entries = ldap_get_entries($server, $result);
+        $entries = ldap_get_entries($serverConnection, $result);
 
         $dataObject = new \Magento\Framework\DataObject();
         if ($entries['count'] > 0) {

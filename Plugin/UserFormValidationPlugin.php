@@ -24,7 +24,7 @@ class UserFormValidationPlugin
         $emailValidity = new EmailAddress();
         $emailValidity->setMessage(
             __('Please enter a valid email.'),
-            \Zend_Validate_EmailAddress::INVALID
+            EmailAddress::INVALID
         );
 
         $validator->addRule(
