@@ -8,6 +8,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterf
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\State\UserLockedException;
+use Magento\Framework\Math\Random;
 use Magento\Security\Model\SecurityCookie;
 use Magento\User\Model\Spi\NotificationExceptionInterface;
 use Mqlogic\Ldap\Model\LdapClient;
@@ -21,6 +22,7 @@ class Save extends \Magento\User\Controller\Adminhtml\User\Save implements HttpP
         \Magento\Framework\Registry $coreRegistry,
         \Magento\User\Model\UserFactory $userFactory,
         private readonly LdapClient $ldapClient,
+        private readonly Random $random,
     ) {
         parent::__construct($context, $coreRegistry, $userFactory);
     }
@@ -87,6 +89,9 @@ class Save extends \Magento\User\Controller\Adminhtml\User\Save implements HttpP
                 $model->setUsername($ldapUser->getData('sAMAccountName'));
                 $model->setFirstName($ldapUser->getData('givenName'));
                 $model->setLastName($ldapUser->getData('sn'));
+            }
+            if (!$model->getCanUsePass()) {
+                $model->setPassword($this->random->getRandomString(32));
             }
 
             $model->save();
